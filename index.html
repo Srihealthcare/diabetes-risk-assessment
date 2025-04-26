@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Risk Assessment - Sri Health Care</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f0f8ff; }
+        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #2e8b57; }
+        label { display: block; margin-top: 15px; }
+        select, button { width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; }
+        .result { margin-top: 20px; text-align: center; font-size: 1.2em; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🩺 Diabetes Risk Assessment</h1>
+    <p style="text-align:center; color:gray;">Sri Health Care</p>
+    <form id="riskForm">
+        <label>Age:</label>
+        <select id="age">
+            <option value="0">Less than 35 years (0 points)</option>
+            <option value="20">35–49 years (20 points)</option>
+            <option value="30">50 years or more (30 points)</option>
+        </select>
+
+        <label>Waist Circumference:</label>
+        <select id="waist">
+            <option value="0">Less than 80 cm (female) / 90 cm (male) (0 points)</option>
+            <option value="10">80–89 cm (female) / 90–99 cm (male) (10 points)</option>
+            <option value="20">90 cm or more (female) / 100 cm or more (male) (20 points)</option>
+        </select>
+
+        <label>Physical Activity:</label>
+        <select id="activity">
+            <option value="0">Regular exercise and physically active at work (0 points)</option>
+            <option value="10">Either regular exercise or physically active at work (10 points)</option>
+            <option value="20">No exercise and sedentary work (20 points)</option>
+        </select>
+
+        <label>Family History of Diabetes:</label>
+        <select id="family">
+            <option value="0">No family history (0 points)</option>
+            <option value="10">One parent diabetic (10 points)</option>
+            <option value="20">Both parents diabetic (20 points)</option>
+        </select>
+
+        <button type="button" onclick="calculateRisk()">Calculate Risk</button>
+    </form>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+function calculateRisk() {
+    const age = parseInt(document.getElementById('age').value);
+    const waist = parseInt(document.getElementById('waist').value);
+    const activity = parseInt(document.getElementById('activity').value);
+    const family = parseInt(document.getElementById('family').value);
+
+    const total = age + waist + activity + family;
+
+    let risk = "";
+    if (total < 30) {
+        risk = "Low Risk";
+    } else if (total <= 50) {
+        risk = "Moderate Risk";
+    } else {
+        risk = "High Risk";
+    }
+
+    document.getElementById('result').innerHTML = `<strong>Total Score: ${total}</strong><br><strong>Risk Level: ${risk}</strong>`;
+}
+</script>
+</body>
+</html>
