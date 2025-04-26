@@ -12,6 +12,7 @@
         label { display: block; margin-top: 15px; }
         select, button { width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; }
         .result { margin-top: 20px; text-align: center; font-size: 1.2em; }
+        .disclaimer { margin-top: 30px; font-size: 0.9em; color: gray; text-align: center; }
     </style>
 </head>
 <body>
@@ -19,6 +20,12 @@
     <h1>🩺 Diabetes Risk Assessment</h1>
     <p style="text-align:center; color:gray;">Sri Health Care</p>
     <form id="riskForm">
+        <label>Gender:</label>
+        <select id="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+
         <label>Age:</label>
         <select id="age">
             <option value="0">Less than 35 years (0 points)</option>
@@ -28,9 +35,9 @@
 
         <label>Waist Circumference:</label>
         <select id="waist">
-            <option value="0">Less than 80 cm (female) / 90 cm (male) (0 points)</option>
-            <option value="10">80–89 cm (female) / 90–99 cm (male) (10 points)</option>
-            <option value="20">90 cm or more (female) / 100 cm or more (male) (20 points)</option>
+            <option value="less">Less (0 points)</option>
+            <option value="mid">Mid (10 points)</option>
+            <option value="high">High (20 points)</option>
         </select>
 
         <label>Physical Activity:</label>
@@ -51,14 +58,30 @@
     </form>
 
     <div class="result" id="result"></div>
+
+    <div class="disclaimer">
+        *This self-assessment tool is for educational purposes only. For medical advice, please consult a healthcare provider.*
+    </div>
 </div>
 
 <script>
 function calculateRisk() {
+    const gender = document.getElementById('gender').value;
     const age = parseInt(document.getElementById('age').value);
-    const waist = parseInt(document.getElementById('waist').value);
+    const waistCategory = document.getElementById('waist').value;
     const activity = parseInt(document.getElementById('activity').value);
     const family = parseInt(document.getElementById('family').value);
+
+    let waist = 0;
+    if (gender === 'male') {
+        if (waistCategory === 'less') waist = 0;
+        else if (waistCategory === 'mid') waist = 10;
+        else if (waistCategory === 'high') waist = 20;
+    } else if (gender === 'female') {
+        if (waistCategory === 'less') waist = 0;
+        else if (waistCategory === 'mid') waist = 10;
+        else if (waistCategory === 'high') waist = 20;
+    }
 
     const total = age + waist + activity + family;
 
